@@ -25,19 +25,19 @@
 }
 
 #registerEmail,
-#nickname {
+#loginCreate {
   padding-left: 5px;
   border: 1px solid #b4b4b4;
   transition: all 0.4s;
 }
 
 #registerEmail:hover,
-#nickname:hover {
+#loginCreate:hover {
   border: 1px solid #339cfd;
 }
 
 #registerEmail:focus,
-#nickname:focus {
+#loginCreate:focus {
   outline: none;
   border: 1px solid #339cfd;
   box-shadow: 0 0 5px #339cfd;
@@ -128,4 +128,17 @@
 .see-confirm {
   display: none;
   cursor: pointer;
+}
+
+.pattern-email,
+.pattern-password {
+  display: none;
+  color: red;
+  margin-top: -15px;
+  font-size: 18px;
+  padding-left: 220px;
+}
+
+.pattern-password {
+  padding-bottom: 20px;
 }

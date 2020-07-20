@@ -28,7 +28,7 @@ User.init(
   {
     email: Sequelize.STRING,
     password: Sequelize.STRING,
-    nickname: Sequelize.STRING,
+    login: Sequelize.STRING,
   },
   { sequelize, modelName: "user" }
 );
@@ -46,39 +46,39 @@ const authenticate = async ({ email, password }) => {
 
 var schema = buildSchema(`
   type Query {
-    login(email: String, password: String): String
+    getLogin(login: String, password: String): String
     getUser(id: ID!): User
   } 
   type Mutation {
-    createUser(email: String, password: String, nickname: String): User
+    createUser(email: String, password: String, login: String): User
   } 
   type User {
     id: Int
     createdAt: String
     email: String
-    nickname: String
+    login: String
   }
 `);
 
 const getUser = async ({ id }) => await User.findByPk(id);
 
-const login = async ({ email, password }) => {
-  const userFind = await User.findOne({ where: { email, password } });
+const getLogin = async ({ login, password }) => {
+  const userFind = await User.findOne({ where: { login, password } });
   return authenticate(userFind);
 };
 
-const createUser = async ({ email, password, nickname }) => {
+const createUser = async ({ email, password, login }) => {
   const wasUserCreated = await User.findOne({ where: { email } });
   if (!wasUserCreated) {
     // const passwordModification = jwt.sign(password + secretPass, secret);
-    const user = { email, password, nickname };
+    const user = { email, password, login };
     const newUser = new User(user);
     await newUser.save();
   } else console.log("bye");
-  return await User.findOne({ where: { email } });
+  return await User.findOne({ where: { login } });
 };
 
-var root = { getUser, login, createUser };
+var root = { getUser, getLogin, createUser };
 
 app.use(
   "/graphql",
@@ -154,8 +154,8 @@ app.get("/a", (req, res, next) => {
   const data = jwt.verify(token1, secret);
   console.log(data);
   // if (data) {
-  console.log(data.sub.nickname);
-  res.send(`<h1>Hello ${data.sub.nickname}</h1>`);
+  console.log(data.sub.login);
+  res.send(`<h1>Hello ${data.sub.login}</h1>`);
   // } else {
   //   res.send(`<h1>Hello haker</h1>`);
   // }
@@ -165,7 +165,7 @@ app.get("/a", (req, res, next) => {
 // (async () => {
 //   let persone =
 //     // User.findOne({ where: { login: "David" } }) ||
-//     (await User.create({ email: "1", password: "1", nickname: "1" }));
+//     (await User.create({ email: "1", password: "1", login: "1" }))
 // })();
 
 sequelize.sync();

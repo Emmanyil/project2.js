@@ -11,7 +11,6 @@ import MyProfile from "./myProfile/myProfile";
 
 const App = (props) => {
   return (
-
     <Router history={createHistory}>
       
       <Switch>
