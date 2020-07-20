@@ -1,0 +1,28 @@
+{
+  "name": "project_js2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "create-react-app": "^3.4.1",
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "express-jwt": "^6.0.0",
+    "graphql": "^15.3.0",
+    "graphql-request": "^2.0.0",
+    "history": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql2": "^2.1.0",
+    "nodemon": "^2.0.4",
+    "react-router-dom": "^5.2.0",
+    "sequelize": "^6.3.0"
+  }
+}
