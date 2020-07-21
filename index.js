@@ -33,6 +33,40 @@ User.init(
   { sequelize, modelName: "user" }
 );
 
+class Message extends Sequelize.Model {}
+
+Message.init(
+  { message: Sequelize.STRING },
+  { sequelize, modelName: "message" }
+);
+
+// class Transaction extends Sequelize.Model {}
+// Transaction.init(
+//   { amount: Sequelize.DECIMAL },
+//   {
+//     sequelize,
+//     modelName: "transaction",
+//     scopes: {
+//       before(date) {
+//         return {
+//           where: {
+//             createdAt: {
+//               [Op.lte]: date,
+//             },
+//           },
+//         };
+//       },
+//     },
+//   }
+// );
+
+User.hasMany(Message, {});
+Message.belongsTo(User, {});
+// Money.hasMany(Transaction, { as: "ins", foreignKey: "inId" });
+// Money.hasMany(Transaction, { as: "outs", foreignKey: "outId" });
+// Transaction.belongsTo(Money, { as: "in", sourceKey: "inId" });
+// Transaction.belongsTo(Money, { as: "out", sourceKey: "outId" });
+
 const secret = `7.!BMB?Y+Bc2vZE-Hb5YuCT6QvE^FN,JWN6M?_VtFXeC5dLtB!`;
 const secretPass = "JcFWhuLkpaK9aB3Gtbvo2Y0BApdw5q1tUyAyJeD8fJXs78d7zR";
 
@@ -48,6 +82,7 @@ var schema = buildSchema(`
   type Query {
     getLogin(login: String, password: String): String
     getUser(id: ID!): User
+    getMessage(id: ID!): Message
   } 
   type Mutation {
     createUser(email: String, password: String, login: String): User
@@ -58,9 +93,19 @@ var schema = buildSchema(`
     email: String
     login: String
   }
+  type Message {
+    id: Int
+    createdAt: String
+    message: String
+    userId: User
+  }
 `);
 
 const getUser = async ({ id }) => await User.findByPk(id);
+
+const getMessage = async ({ id }) => {
+  return await Message.findByPk(id) || getUser()
+};
 
 const getLogin = async ({ login, password }) => {
   const userFind = await User.findOne({ where: { login, password } });
@@ -74,11 +119,11 @@ const createUser = async ({ email, password, login }) => {
     const user = { email, password, login };
     const newUser = new User(user);
     await newUser.save();
-  } else console.log("bye");
-  return await User.findOne({ where: { login } });
+    return await User.findOne({ where: { login } });
+  } else console.error("error");
 };
 
-var root = { getUser, getLogin, createUser };
+var root = { getUser, getLogin, createUser, getMessage };
 
 app.use(
   "/graphql",
@@ -90,6 +135,7 @@ app.use(
 );
 
 app.get("/users", async (req, res) => res.send(await User.findAll()));
+app.get("/message", async (req, res) => res.send(await Message.findAll()));
 
 // app.post("/users", async (req, res) => {
 //   // const twoUsers = async () => {
@@ -165,7 +211,8 @@ app.get("/a", (req, res, next) => {
 // (async () => {
 //   let persone =
 //     // User.findOne({ where: { login: "David" } }) ||
-//     (await User.create({ email: "1", password: "1", login: "1" }))
+//     (await User.create({ email: "gfd@gfd.gfd", password: "1", login: "A" }))
+//    persone.createMessage({message: "Hello"})
 // })();
 
 sequelize.sync();

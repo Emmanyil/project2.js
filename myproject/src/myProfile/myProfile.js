@@ -3,12 +3,18 @@ import { TeamOutlined, FormOutlined, SearchOutlined } from "@ant-design/icons";
 import "./myProfile.css";
 
 import ChatGroups from "./chatGroups/chatGroups";
+import ChatMessages from "./chatMessages/chatMessages";
 
 const MyProfile = (props) => {
   const [text, setText] = useState("");
 
-  const a = props.message.map((el) => (
-    <ChatGroups nickname={el.idSendUser} message={el.message} />
+  const chatGroups = props.message.map((el) => (
+    <ChatGroups
+      key={el.id}
+      src={el.image}
+      login={el.idSendUser}
+      message={el.message}
+    />
   ));
 
   return (
@@ -24,14 +30,20 @@ const MyProfile = (props) => {
               <FormOutlined />
             </div>
             <div className="search-input">
-              <input value={text} onChange={(e) => setText(e.target.value)} placeholder="Поиск..."/>
+              <input
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder="Поиск..."
+              />
               <SearchOutlined />
             </div>
           </div>
-          <div className="chat-groups">{a}</div>
+          <div className="chat-groups">{chatGroups}</div>
         </div>
 
-        <div className="chat-messages"></div>
+        <div className="chat-messages">
+          <ChatMessages message={props.message} />
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { Provider, connect } from "react-redux";
+import { connect } from "react-redux";
 import {
   UserOutlined,
   LockOutlined,
@@ -8,9 +8,24 @@ import {
   EyeInvisibleOutlined,
 } from "@ant-design/icons";
 
-import { actionLogin, store } from "./actionLogin/actionLogin";
-
+import { actionLogin } from "./actionLogin/actionLogin";
 import "./signIn.css";
+
+const loginEye = () => {
+  const password = document.getElementById("password");
+  const notSee = document.querySelector(".not-see");
+  const see = document.querySelector(".see");
+
+  if (password.type === "password") {
+    password.type = "text";
+    see.style.display = "inline-block";
+    notSee.style.display = "none";
+  } else {
+    password.type = "password";
+    notSee.style.display = "inline-block";
+    see.style.display = "none";
+  }
+};
 
 const LoginForm = (props) => {
   const [login, setLogin] = useState("");
@@ -44,10 +59,10 @@ const LoginForm = (props) => {
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />
-          <div className="not-see" onClick={props.loginEye}>
+          <div className="not-see" onClick={loginEye}>
             <EyeInvisibleOutlined />
           </div>
-          <div className="see" onClick={props.loginEye}>
+          <div className="see" onClick={loginEye}>
             <EyeOutlined />
           </div>
         </div>
@@ -74,11 +89,7 @@ const LoginForm = (props) => {
   );
 };
 
-const Login = (props) => (
-  <Provider store={store}>
-    <ConnectedLoginForm loginEye={props.loginEye} />
-  </Provider>
-);
+const Login = (props) => <ConnectedLoginForm />;
 
 const ConnectedLoginForm = connect(null, { onLogin: actionLogin })(LoginForm);
 

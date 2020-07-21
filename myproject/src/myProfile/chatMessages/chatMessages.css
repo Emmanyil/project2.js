@@ -1,0 +1,19 @@
+.loginPartner {
+  text-align: center;
+  font-size: 18px;
+  border-bottom: 1px solid;
+  padding-bottom: 15px;
+}
+
+.messagePartner {
+  padding: 15px 100px;
+  height: 85%;
+}
+
+.message {
+  height: 100%;
+}
+
+.sendMessage {
+  text-align: center;
+}

@@ -7,12 +7,14 @@ const validateEmail = (mail) => {
   const patternEmail = document.querySelector(".pattern-email");
   if (validateEmailPattern(mail)) {
     patternEmail.style.display = "none";
-    patternEmail.style.border = "1px solid #b4b4b4";
+    // patternEmail.style.border = "1px solid #b4b4b4";
   }
 };
 
 const borderEmailDischarge = () => {
   const registerEmail = document.getElementById("registerEmail");
+  const repeatEmail = document.querySelector(".repeat-email");
+  repeatEmail.style.display = "none";
   registerEmail.style.border = "1px solid #b4b4b4";
 };
 
@@ -49,10 +51,18 @@ const signUpValidate = (mail, pass, confirmPass, login, props) => {
   }
 };
 
+const signUpValidateRepeat = () => {
+  const repeatEmail = document.querySelector(".repeat-email");
+  const registerEmail = document.getElementById("registerEmail");
+  registerEmail.style.border = "1px solid red";
+  repeatEmail.style.display = "block";
+};
+
 export {
   validateEmail,
   borderEmailDischarge,
   borderPasswordDischarge,
   validatePassword,
   signUpValidate,
+  signUpValidateRepeat
 };

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
-import { Provider, connect } from "react-redux";
+import { connect } from "react-redux";
 
 import {
   validateEmail,
@@ -9,8 +9,40 @@ import {
   validatePassword,
   signUpValidate,
 } from "./signUpValidate/signUpValidate";
-import {actionRegister, store} from "./actionRegister/actionRegister"
+import { actionRegister } from "./actionRegister/actionRegister";
 import "./signUp.css";
+
+const registerEye = () => {
+  const password = document.getElementById("registerPassword");
+  const notSee = document.querySelector(".not-see");
+  const see = document.querySelector(".see");
+
+  if (password.type === "password") {
+    password.type = "text";
+    see.style.display = "inline-block";
+    notSee.style.display = "none";
+  } else {
+    password.type = "password";
+    notSee.style.display = "inline-block";
+    see.style.display = "none";
+  }
+};
+
+const registerConfirmEye = () => {
+  const password = document.getElementById("confirmPassword");
+  const notSee = document.querySelector(".not-see-confirm");
+  const see = document.querySelector(".see-confirm");
+
+  if (password.type === "password") {
+    password.type = "text";
+    see.style.display = "inline-block";
+    notSee.style.display = "none";
+  } else {
+    password.type = "password";
+    notSee.style.display = "inline-block";
+    see.style.display = "none";
+  }
+};
 
 const Register1 = (props) => {
   const [registerEmail, setEmail] = useState("");
@@ -46,6 +78,13 @@ const Register1 = (props) => {
           </div>
         </div>
 
+        <div className="repeat-email">
+          <p></p>
+          <div>
+            <p>Аккаунт с такой почтой уже зарегестрирован</p>
+          </div>
+        </div>
+
         <div className="block-input">
           <span>Логин:</span>
           <input
@@ -67,10 +106,10 @@ const Register1 = (props) => {
               name="password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="not-see" onClick={props.registerEye}>
+            <div className="not-see" onClick={registerEye}>
               <EyeInvisibleOutlined />
             </div>
-            <div className="see" onClick={props.registerEye}>
+            <div className="see" onClick={registerEye}>
               <EyeOutlined />
             </div>
           </div>
@@ -88,10 +127,10 @@ const Register1 = (props) => {
               name="confirmPassword"
               onChange={(e) => setConfirmPassword(e.target.value)}
             />
-            <div className="not-see-confirm" onClick={props.registerConfirmEye}>
+            <div className="not-see-confirm" onClick={registerConfirmEye}>
               <EyeInvisibleOutlined />
             </div>
-            <div className="see-confirm" onClick={props.registerConfirmEye}>
+            <div className="see-confirm" onClick={registerConfirmEye}>
               <EyeOutlined />
             </div>
           </div>
@@ -128,14 +167,7 @@ const Register1 = (props) => {
   );
 };
 
-const Register = (props) => (
-  <Provider store={store}>
-    <ConnectedRegisterForm
-      registerEye={props.registerEye}
-      registerConfirmEye={props.registerConfirmEye}
-    />
-  </Provider>
-);
+const Register = (props) => <ConnectedRegisterForm />;
 
 const ConnectedRegisterForm = connect(null, { register: actionRegister })(
   Register1

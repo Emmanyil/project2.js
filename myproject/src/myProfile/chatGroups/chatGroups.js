@@ -1,5 +1,4 @@
-import React, { Schema, Component } from "react";
-// import "antd/dist/antd.css";
+import React from "react";
 import "./chatGroups.css";
 
 const ChatGroups = (props) => {
@@ -7,11 +6,11 @@ const ChatGroups = (props) => {
     <>
       <div className="groups">
         <div className="avatar">
-          <img src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__340.jpg" />
+          <img src={props.src} />
         </div>
         <div className="data">
           <div className="userName">
-            <span>{props.nickname}</span>
+            <span>{props.login}</span>
             <span className="date">00:00</span>
           </div>
           <div className="last-message">
